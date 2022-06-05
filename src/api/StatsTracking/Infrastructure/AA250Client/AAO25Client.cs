@@ -1,11 +1,14 @@
-﻿using System.Web;
+﻿using System.Net;
+using System.Web;
 using AAO25.Client.Models;
+using AAO25.Client.Protocols.GameSpy2;
 
 namespace AAO25.Client;
 
 public interface IAAO25Client
 {
    Task<IReadOnlyList<AAOServer>> GetServers();
+   GameSession GetServerDetails(string ipAddressWithPort);
 }
 
 public class AAO25Client: IAAO25Client
@@ -28,8 +31,8 @@ public class AAO25Client: IAAO25Client
                 { 
                     Ip = entry[0],
                     CountryIso2 = entry[1], 
-                    Name = HttpUtility.HtmlDecode(entry[6]),
-                    Mapname = HttpUtility.HtmlDecode(entry[7]),
+                    Name = HttpUtility.HtmlDecode(Uri.UnescapeDataString(entry[6])),
+                    Mapname = HttpUtility.HtmlDecode(Uri.UnescapeDataString(entry[7])),
                     NumberOfPlayers = int.Parse(entry[8]),
                     MaxPlayers = int.Parse(entry[9]),
                     Version = entry[10],
@@ -38,5 +41,15 @@ public class AAO25Client: IAAO25Client
                 };
             });
         return servers.ToList().AsReadOnly();
+    }
+
+    public GameSession GetServerDetails(string ipAddressWithPort)
+    {
+        using var protocol = new GameSpy2Protocol();
+        var split = ipAddressWithPort.Split(':');
+        var port = (int.Parse(split[1])) ;
+        protocol.Connect(IPAddress.Parse(split[0]),port);
+        var session = protocol.GetLiveSession();
+        return session;
     }
 }

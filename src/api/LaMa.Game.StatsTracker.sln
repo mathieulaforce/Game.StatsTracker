@@ -9,11 +9,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StatsTracking", "StatsTracking", "{F51078B6-7AEF-4173-829C-0A7AA60B2072}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaMa.StatsTracking.Data", "StatsTracking\Infrastructure\LaMa.StatsTracking.Data\LaMa.StatsTracking.Data.csproj", "{990CDF66-5F65-4535-AB80-CDAFC4CDAA38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LaMa.StatsTracking.Data", "StatsTracking\Infrastructure\LaMa.StatsTracking.Data\LaMa.StatsTracking.Data.csproj", "{990CDF66-5F65-4535-AB80-CDAFC4CDAA38}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AAO25.Client", "StatsTracking\Infrastructure\AA250Client\AAO25.Client.csproj", "{A867FA53-E8F5-461B-8434-816F1CD6E698}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaMa.StatsTracking.Domain", "StatsTracking\LaMa.StatsTracking.Domain\LaMa.StatsTracking.Domain.csproj", "{1B58F658-297B-42F4-9CCD-B62C83A5AFD9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LaMa.StatsTracking.Domain", "StatsTracking\LaMa.StatsTracking.Domain\LaMa.StatsTracking.Domain.csproj", "{1B58F658-297B-42F4-9CCD-B62C83A5AFD9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{7405B4BA-498C-4C34-81FE-D0E5F5431AF4}"
 EndProject
