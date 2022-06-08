@@ -19,7 +19,9 @@ public class Startup: FunctionsStartup
         var config = new ConfigurationBuilder()
             .AddEnvironmentVariables()
             .Build();
-
+        var authKey = config.GetValue<string>("COSMOS_DB_AUTH_KEY");
+        var endpoint = config.GetValue<string>("COSMOS_ENDPOINT");
+        
         builder.Services.AddSingleton(config);
         
         builder.Services.AddTransient<IServerRepository, ServerRepository>();
@@ -28,18 +30,19 @@ public class Startup: FunctionsStartup
         builder.Services.AddHttpClient<IAAO25Client, AAO25Client>(client =>
         {
             client.BaseAddress = new Uri(config.GetValue<string>("SERVER_LIST_ENDPOINT"));
-        });
-        builder.Services.AddHttpClient<IAAO25Client, AAO25Client>(client =>
-        {
-            client.BaseAddress = new Uri(config.GetValue<string>("SERVER_LIST_ENDPOINT"));
-        });
+        }); 
 
-        builder.Services.AddScoped<CosmosClient>(_ => new CosmosClientBuilder("https://localhost:8081/", "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==")
+        builder.Services.AddSingleton<CosmosClient>(_ => new CosmosClientBuilder(endpoint, authKey)
             .WithSerializerOptions(new CosmosSerializationOptions { PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase })
             .WithBulkExecution(true)
             .Build());
-        builder.Services.AddScoped<ICosmosContainerClient, CosmosContainerClient>(provider => new CosmosContainerClient(provider.GetService<CosmosClient>(),"GameStatsTracker", "GameServer"));
-       
+        builder.Services.AddSingleton<ICosmosContainerClient, CosmosContainerClient>(provider => new CosmosContainerClient(provider.GetService<CosmosClient>(),"GameStatsTracker", "GameServer"));
+
+        using (var client = new CosmosClient(endpoint, authKey))
+        {
+            var db = client.CreateDatabaseIfNotExistsAsync("GameStatsTracker").GetAwaiter().GetResult();
+            db.Database.CreateContainerIfNotExistsAsync("GameServer", "/game").GetAwaiter().GetResult();
+        }
         //end move
     }
 }

@@ -13,13 +13,14 @@ internal static class GameServerMappers
             Ip = aaoServer.Ip,
             CountryIso2 = aaoServer.CountryIso2,
             LastOnline = aaoServer.LastOnlineSince,
+            isOnline = aaoServer.IsOnline,
             Mapname = aaoServer.Mapname,
             MaxPlayers = aaoServer.MaxPlayers,
             Name = aaoServer.Name,
             NumberOfPlayers = aaoServer.NumberOfPlayers,
             Ping = aaoServer.Ping,
             Version = aaoServer.Version,
-            Game = "AA"
+            Game = "AA250"
         };
     }
 
@@ -35,6 +36,7 @@ internal static class GameServerMappers
             Ip = server.Ip,
             CountryIso2 = server.CountryIso2,
             LastOnline = server.LastOnline,
+            IsOnline = server.isOnline,
             Mapname = server.Mapname,
             MaxPlayers = server.MaxPlayers,
             Name = server.Name,

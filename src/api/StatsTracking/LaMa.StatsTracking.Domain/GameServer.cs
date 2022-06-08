@@ -12,4 +12,5 @@ public class GameServer
     public string Version { get; init; }
     public DateTimeOffset LastOnline { get; init; }
     public bool IsTracking => NumberOfPlayers > 3;
+    public bool IsOnline { get; init; }
 }

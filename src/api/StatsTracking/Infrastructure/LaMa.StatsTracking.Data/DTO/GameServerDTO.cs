@@ -12,6 +12,7 @@ internal class GameServerDTO
     public int MaxPlayers { get; init; }
     public string Version { get; init; }
     public DateTimeOffset LastOnline { get; set; }
+    public bool isOnline{ get; set; }
     public string Game { get; init; }
 }
 

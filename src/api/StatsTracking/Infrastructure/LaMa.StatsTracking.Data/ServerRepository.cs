@@ -12,8 +12,8 @@ namespace LaMa.StatsTracking.Data;
 public interface IServerRepository
 {
     Task GetAndUpdateOnlineServers();
-    Task<IReadOnlyCollection<GameServer>> Get(bool includeOffline, bool trackingOnly);
-    Task GetServerSession(string ipAddressWithPort);
+    Task<IReadOnlyCollection<GameServer>> Get(bool includeOffline);
+    GameSession GetServerSession(string ipAddressWithPort);
 }
 
 public class ServerRepository : IServerRepository
@@ -42,42 +42,48 @@ public class ServerRepository : IServerRepository
                 knownServers.All(known => known.Ip != server.Ip && known.Name != server.Name))
             .Select(server => server.MapToDto())
             .ToList();
-        var serversToDelete = knownServers.Where(server =>
+
+        var offlineServers = knownServers.Where(server =>
             onlineServers.Any(known => known.Ip != server.Ip && known.Name == server.Name)).ToList();
 
-        foreach (var serverDto in serversToDelete)
-            await _cosmsContainerClient.Container.DeleteItemAsync<GameServerDTO>(serverDto.Ip, new PartitionKey("AA"));
-
+        foreach (var serverDto in offlineServers)
+        {
+            serverDto.isOnline = false;
+            await _cosmsContainerClient.Container.UpsertItemAsync(serverDto); 
+        }
+             
         knownServers.AddRange(newServers);
 
         foreach (var gameServerDto in knownServers)
         {
-            gameServerDto.LastOnline = requestTime;
-            await _cosmsContainerClient.Container.UpsertItemAsync(gameServerDto);
-        }
-
-
-        var result = knownServers.MapToDomain();
+            var onlineServer = onlineServers.First(server => server.Ip == gameServerDto.Ip).MapToDto();
+            onlineServer.LastOnline = requestTime;
+            onlineServer.isOnline = true; 
+            await _cosmsContainerClient.Container.UpsertItemAsync(onlineServer);
+        } 
     }
 
-    public async Task<IReadOnlyCollection<GameServer>> Get(bool includeOffline, bool trackingOnly)
+    public async Task<IReadOnlyCollection<GameServer>> Get(bool includeOffline)
     {
-        var servers = await _client.GetServers();
-        servers = servers.Where(server =>
+        IQueryable<GameServerDTO> query = _cosmsContainerClient.Container.GetItemLinqQueryable<GameServerDTO>();
+        if (!includeOffline)
         {
-            if (trackingOnly)
-            {
-                return server.NumberOfPlayers > 2;
-            }
+            query = query.Where(server => server.isOnline);
+        } 
+        var feedIterator = query.ToFeedIterator();
+        var servers = new List<GameServerDTO>();
+        while (feedIterator.HasMoreResults)
+        {
+            var result = await feedIterator.ReadNextAsync();
+            servers.AddRange(result.Resource);
+        }
 
-            return true;
-        }).ToList();
-        return servers.Select(server => server.MapToDto().MapToDomain()).ToList();
+        return servers.MapToDomain();
     }
 
     public GameSession GetServerSession(string ipAddressWithPort)
     {
         var gameSession = _client.GetServerDetails(ipAddressWithPort);
-        return gameSession.MapSession();
+        return gameSession;
     }
 }

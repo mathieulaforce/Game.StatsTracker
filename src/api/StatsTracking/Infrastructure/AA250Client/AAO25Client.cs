@@ -37,7 +37,8 @@ public class AAO25Client: IAAO25Client
                     MaxPlayers = int.Parse(entry[9]),
                     Version = entry[10],
                     Ping = int.Parse(entry[14]),
-                    LastOnlineSince =onlineSince
+                    LastOnlineSince =onlineSince,
+                    IsOnline = true,
                 };
             });
         return servers.ToList().AsReadOnly();

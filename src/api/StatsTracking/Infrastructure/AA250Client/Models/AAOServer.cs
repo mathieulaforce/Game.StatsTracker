@@ -11,4 +11,5 @@ public class AAOServer
     public int MaxPlayers { get; init; }
     public string Version{ get; init; }
     public DateTimeOffset LastOnlineSince { get; set; }
+    public bool IsOnline { get; set; }
 }
