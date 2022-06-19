@@ -4,21 +4,23 @@ namespace LaMa.Game.Shared.Infrastructure;
 
 public interface ICosmosContainerClient
 {
-    Container Container { get; }
+    Container GetContainer(string containerName);
 }
 
 public class CosmosContainerClient: ICosmosContainerClient
 {
     private readonly CosmosClient _client;
     private readonly string _databaseName;
-    private readonly string _containerName;
 
-    public CosmosContainerClient(CosmosClient client, string databaseName, string containerName)
+    public CosmosContainerClient(CosmosClient client, string databaseName)
     {
         _client = client;
         _databaseName = databaseName;
-        _containerName = containerName;
     }
+    
 
-    public Container Container => _client.GetContainer(_databaseName, _containerName);
+    public Container GetContainer(string containerName)
+    {
+        return _client.GetContainer(_databaseName, containerName);
+    }
 }

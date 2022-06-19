@@ -16,8 +16,9 @@ const useGameServerList = (): [boolean, GameServer[]] => {
         return [];
       }
     };
-    loadServers().then((result) => {
-      setServers(result);
+    loadServers().then((results) => {
+      const gameServers = results.map((currentServer: any) => ({ ...currentServer, ip: `${currentServer.ipAddress.ip}:${currentServer.ipAddress.port}` }));
+      setServers(gameServers);
       setIsLoading(false);
     });
   }, []);

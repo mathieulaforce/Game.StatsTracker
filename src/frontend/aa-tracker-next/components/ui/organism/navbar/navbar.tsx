@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react';
 import { MenuIcon, XIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
 import { getNavbarItems } from './navbarItems';
-import NavLink from '../../atoms/NavigationLink';
+import NavLink from '../../atoms/navigationLink';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);

@@ -1,7 +1,7 @@
 export interface GameServer {
   name: string;
   ip: string;
-  mapname: string;
+  mapName: string;
   countryIso2: string;
   ping: number;
   numberOfPlayers: number;
@@ -10,4 +10,5 @@ export interface GameServer {
   lastOnline: Date;
   isTracking: boolean;
   isOnline: boolean;
+  passwordProtected: boolean;
 }

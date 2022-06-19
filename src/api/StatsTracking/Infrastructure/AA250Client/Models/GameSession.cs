@@ -13,10 +13,5 @@ public class GameSession
     public string Id { get; set; }
     public GameServerSession Server{ get; }
     public MatchInformation MatchInformation { get; }
-    public ScoreBoard ScoreBoard { get; }
-     
-    public bool CanBeTracked()
-    {
-        return ScoreBoard.OnlinePlayers.Count >= 2 && MatchInformation.CurrentRound != 0;
-    }
+    public ScoreBoard ScoreBoard { get; } 
 }

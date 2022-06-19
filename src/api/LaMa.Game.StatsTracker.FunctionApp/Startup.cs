@@ -1,6 +1,8 @@
 ﻿using System;
 using AAO25.Client;
+using LaMa.Game.GameSessionProcessor.Client;
 using LaMa.Game.Shared.Infrastructure;
+using LaMa.Game.StatsTracker.Application;
 using LaMa.Game.StatsTracker.FunctionApp;
 using LaMa.StatsTracking.Data;
 using Microsoft.Azure.Cosmos;
@@ -25,6 +27,10 @@ public class Startup: FunctionsStartup
         builder.Services.AddSingleton(config);
         
         builder.Services.AddTransient<IServerRepository, ServerRepository>();
+        builder.Services.AddTransient<IGameMatchRepository, GameMatchRepository>();
+        builder.Services.AddTransient<IServerApplicationService, ServerApplicationService>();
+        builder.Services.AddTransient<IGameSessionProcessorEventPublisher, GameSessionProcessorEventPublisher>();
+        builder.Services.AddTransient<IGameSessionApplicationService, GameSessionApplicationService>();
 
         //Move to correct place
         builder.Services.AddHttpClient<IAAO25Client, AAO25Client>(client =>
@@ -36,12 +42,13 @@ public class Startup: FunctionsStartup
             .WithSerializerOptions(new CosmosSerializationOptions { PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase })
             .WithBulkExecution(true)
             .Build());
-        builder.Services.AddSingleton<ICosmosContainerClient, CosmosContainerClient>(provider => new CosmosContainerClient(provider.GetService<CosmosClient>(),"GameStatsTracker", "GameServer"));
+        builder.Services.AddSingleton<ICosmosContainerClient, CosmosContainerClient>(provider => new CosmosContainerClient(provider.GetService<CosmosClient>(),"GameStatsTracker"));
 
         using (var client = new CosmosClient(endpoint, authKey))
         {
             var db = client.CreateDatabaseIfNotExistsAsync("GameStatsTracker").GetAwaiter().GetResult();
             db.Database.CreateContainerIfNotExistsAsync("GameServer", "/game").GetAwaiter().GetResult();
+            db.Database.CreateContainerIfNotExistsAsync("GameMatch", "/game").GetAwaiter().GetResult();
         }
         //end move
     }

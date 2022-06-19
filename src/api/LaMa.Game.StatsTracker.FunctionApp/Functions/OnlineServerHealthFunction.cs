@@ -1,28 +1,27 @@
 using System;
 using System.Net.Http;
-using System.Threading.Tasks;
-using AAO25.Client;
-using LaMa.StatsTracking.Data;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks; 
+using LaMa.Game.StatsTracker.Application; 
+using Microsoft.Azure.WebJobs; 
 using Microsoft.Extensions.Logging;
 
 namespace LaMa.Game.StatsTracker.FunctionApp.Functions
 {
   public class OnlineServerHealthFunction
   {
-      private readonly IServerRepository _serverRepository; 
-    public OnlineServerHealthFunction(IServerRepository serverRepository)
+      private readonly IServerApplicationService _serverApplicationService;
+      
+    public OnlineServerHealthFunction(IServerApplicationService serverApplicationService)
     {
-        _serverRepository = serverRepository; 
+        _serverApplicationService = serverApplicationService;
     }
 
-    [FunctionName("OnlineServerHealthFunction")]
+    [FunctionName(nameof(OnlineServerHealthFunction))]
     public async Task Run([TimerTrigger("0/30 * * * * *", RunOnStartup = true)] TimerInfo myTimer, ILogger log)
-    {
+    { 
       log.LogInformation($"Fetching server list on {DateTime.UtcNow}");
       using var client = new HttpClient();
-      await _serverRepository.GetAndUpdateOnlineServers(); 
+      await _serverApplicationService.ContactAndUpdateServers(); 
     }
   }
 }

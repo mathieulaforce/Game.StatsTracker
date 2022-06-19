@@ -25,7 +25,7 @@ namespace LaMa.Game.StatsTracker.FunctionApp.Functions
             _serverRepository = serverRepository;
         }
 
-        [FunctionName("GetServers")]
+        [FunctionName(nameof(GetServers))]
         [OpenApiOperation(operationId: "Run", tags: new[] { "name" })]
         [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
         [OpenApiParameter(name: "includeOffline", In = ParameterLocation.Query, Required = false, Type = typeof(bool))] 
@@ -36,7 +36,7 @@ namespace LaMa.Game.StatsTracker.FunctionApp.Functions
             _logger.LogInformation("C# HTTP trigger function processed a request.");
             bool.TryParse(req.Query["includeOffline"], out var includeOffline); 
 
-            var servers =await _serverRepository.Get(includeOffline);
+            var servers =await _serverRepository.GetServers();
 
             return new OkObjectResult(servers);
         }

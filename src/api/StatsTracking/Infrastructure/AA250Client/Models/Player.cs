@@ -21,15 +21,5 @@ public class Player
     public int Roe { get; }
     public int Kia { get; }
     public int Enemy { get; }
-    public int Honor { get; }
-
-    public Player AddScore(Player player)
-    {
-        if (player.Name != Name)
-        {
-            throw new Exception("adding score not allowed");
-        }
-
-        return new Player(Name, Leader + player.Leader, Goal + player.Goal, player.Ping, Roe + player.Roe, Kia + player.Kia, Enemy + player.Enemy, player.Honor);
-    }
+    public int Honor { get; } 
 }

@@ -12,9 +12,4 @@
     <ProjectReference Include="..\AA250Client\AAO25.Client.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DTO\" />
-    <Folder Include="Mappers\" />
-  </ItemGroup>
-
 </Project>

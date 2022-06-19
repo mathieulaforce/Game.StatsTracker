@@ -4,7 +4,7 @@ internal class GameServerDTO
 {
     public string Id => Ip;
     public string Name { get; init; }
-      public string Ip { get; init; }
+    public string Ip { get; init; }
     public string Mapname { get; init; }
     public string CountryIso2 { get; init; }
     public int Ping { get; init; }
@@ -14,6 +14,7 @@ internal class GameServerDTO
     public DateTimeOffset LastOnline { get; set; }
     public bool isOnline{ get; set; }
     public string Game { get; init; }
+    public bool PasswordProtected { get; set; }
 }
 
   

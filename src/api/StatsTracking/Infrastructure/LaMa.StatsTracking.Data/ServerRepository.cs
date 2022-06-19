@@ -10,80 +10,49 @@ using Microsoft.Azure.Cosmos.Linq;
 namespace LaMa.StatsTracking.Data;
 
 public interface IServerRepository
-{
-    Task GetAndUpdateOnlineServers();
-    Task<IReadOnlyCollection<GameServer>> Get(bool includeOffline);
-    GameSession GetServerSession(string ipAddressWithPort);
+{ 
+    GameSession GetServerSession(string ipAddressWithPort); 
+    Task<IReadOnlyCollection<GameServer>> GetServers(); 
+    Task<GameServer> InsertOrUpdate(GameServer server);
 }
 
 public class ServerRepository : IServerRepository
 {
     private readonly IAAO25Client _client;
-    private readonly ICosmosContainerClient _cosmsContainerClient;
+    private readonly ICosmosContainerClient _cosmosContainerClient;
 
-    public ServerRepository(IAAO25Client client, ICosmosContainerClient cosmsContainerClient)
+    public ServerRepository(IAAO25Client client, ICosmosContainerClient cosmosContainerClient)
     {
         _client = client;
-        _cosmsContainerClient = cosmsContainerClient;
+        _cosmosContainerClient = cosmosContainerClient;
     }
 
-    public async Task GetAndUpdateOnlineServers()
+    private Container Container => _cosmosContainerClient.GetContainer("GameServer");
+    public GameSession GetServerSession(string ipAddressWithPort)
     {
-        var onlineServers = await _client.GetServers();
-        var requestTime = DateTimeOffset.UtcNow;
-        var feedIterator = _cosmsContainerClient.Container.GetItemLinqQueryable<GameServerDTO>().ToFeedIterator();
-        var knownServers = new List<GameServerDTO>();
-        while (feedIterator.HasMoreResults)
-        {
-            knownServers.AddRange(await feedIterator.ReadNextAsync());
-        }
-
-        var newServers = onlineServers.Where(server =>
-                knownServers.All(known => known.Ip != server.Ip && known.Name != server.Name))
-            .Select(server => server.MapToDto())
-            .ToList();
-
-        var offlineServers = knownServers.Where(server =>
-            onlineServers.Any(known => known.Ip != server.Ip && known.Name == server.Name)).ToList();
-
-        foreach (var serverDto in offlineServers)
-        {
-            serverDto.isOnline = false;
-            await _cosmsContainerClient.Container.UpsertItemAsync(serverDto); 
-        }
-             
-        knownServers.AddRange(newServers);
-
-        foreach (var gameServerDto in knownServers)
-        {
-            var onlineServer = onlineServers.First(server => server.Ip == gameServerDto.Ip).MapToDto();
-            onlineServer.LastOnline = requestTime;
-            onlineServer.isOnline = true; 
-            await _cosmsContainerClient.Container.UpsertItemAsync(onlineServer);
-        } 
+        var gameSession = _client.GetServerDetails(ipAddressWithPort);
+        return gameSession;
     }
 
-    public async Task<IReadOnlyCollection<GameServer>> Get(bool includeOffline)
+    public async Task<IReadOnlyCollection<GameServer>> GetServers()
     {
-        IQueryable<GameServerDTO> query = _cosmsContainerClient.Container.GetItemLinqQueryable<GameServerDTO>();
-        if (!includeOffline)
-        {
-            query = query.Where(server => server.isOnline);
-        } 
-        var feedIterator = query.ToFeedIterator();
+        var feedIterator = Container.GetItemLinqQueryable<GameServerDTO>().ToFeedIterator();
         var servers = new List<GameServerDTO>();
         while (feedIterator.HasMoreResults)
         {
-            var result = await feedIterator.ReadNextAsync();
-            servers.AddRange(result.Resource);
+            servers.AddRange(await feedIterator.ReadNextAsync());
         }
 
         return servers.MapToDomain();
     }
 
-    public GameSession GetServerSession(string ipAddressWithPort)
+    public async Task<GameServer> InsertOrUpdate(GameServer server)
     {
-        var gameSession = _client.GetServerDetails(ipAddressWithPort);
-        return gameSession;
+        if (server == null)
+        {
+            throw new ArgumentNullException(nameof(server));
+        }
+        var response = await Container.UpsertItemAsync(server.MapToDto());
+        return response.Resource.MapToDomain();
     }
 }

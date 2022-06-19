@@ -31,8 +31,9 @@ public class AAO25Client: IAAO25Client
                 { 
                     Ip = entry[0],
                     CountryIso2 = entry[1], 
+                    PasswordProtected =entry[5] != "0",
                     Name = HttpUtility.HtmlDecode(Uri.UnescapeDataString(entry[6])),
-                    Mapname = HttpUtility.HtmlDecode(Uri.UnescapeDataString(entry[7])),
+                    MapName = HttpUtility.HtmlDecode(Uri.UnescapeDataString(entry[7])),
                     NumberOfPlayers = int.Parse(entry[8]),
                     MaxPlayers = int.Parse(entry[9]),
                     Version = entry[10],

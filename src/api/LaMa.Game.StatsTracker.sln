@@ -19,6 +19,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LaMa.Game.Shared.Infrastructure", "Infrastructure\LaMa.Game.Shared.Infrastructure\LaMa.Game.Shared.Infrastructure.csproj", "{47587B43-4A3A-41EE-AF62-169384D80D03}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LaMa.Game.StatsTracker.Application", "Application\LaMa.Game.StatsTracker.Application\LaMa.Game.StatsTracker.Application.csproj", "{5AC50DF2-2254-474A-925B-3127EF5ACCC1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{C0EA14A4-D33D-4CEC-8ED7-495D87970A24}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LaMa.Domain.SharedKernel", "shared\LaMa.Domain.SharedKernel\LaMa.Domain.SharedKernel.csproj", "{53F30BC9-E1D8-49D3-B84D-97B67F638D31}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GameSessionProcessor", "GameSessionProcessor", "{57D7E39E-6240-4E38-83C2-30D7A21B71C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaMa.Game.GameSessionProcessor.Client", "GameSessionProcessor\LaMa.Game.GameSessionProcessor.Client\LaMa.Game.GameSessionProcessor.Client.csproj", "{C29854EA-9B43-44F4-BBC8-FE26370C148B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +55,18 @@ Global
 		{47587B43-4A3A-41EE-AF62-169384D80D03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47587B43-4A3A-41EE-AF62-169384D80D03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47587B43-4A3A-41EE-AF62-169384D80D03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AC50DF2-2254-474A-925B-3127EF5ACCC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AC50DF2-2254-474A-925B-3127EF5ACCC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AC50DF2-2254-474A-925B-3127EF5ACCC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AC50DF2-2254-474A-925B-3127EF5ACCC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53F30BC9-E1D8-49D3-B84D-97B67F638D31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53F30BC9-E1D8-49D3-B84D-97B67F638D31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53F30BC9-E1D8-49D3-B84D-97B67F638D31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53F30BC9-E1D8-49D3-B84D-97B67F638D31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C29854EA-9B43-44F4-BBC8-FE26370C148B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C29854EA-9B43-44F4-BBC8-FE26370C148B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C29854EA-9B43-44F4-BBC8-FE26370C148B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C29854EA-9B43-44F4-BBC8-FE26370C148B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +77,8 @@ Global
 		{A867FA53-E8F5-461B-8434-816F1CD6E698} = {F11E5EFE-B9AB-41FF-82CD-29A2C2EBDAE1}
 		{1B58F658-297B-42F4-9CCD-B62C83A5AFD9} = {F51078B6-7AEF-4173-829C-0A7AA60B2072}
 		{47587B43-4A3A-41EE-AF62-169384D80D03} = {7405B4BA-498C-4C34-81FE-D0E5F5431AF4}
+		{53F30BC9-E1D8-49D3-B84D-97B67F638D31} = {C0EA14A4-D33D-4CEC-8ED7-495D87970A24}
+		{C29854EA-9B43-44F4-BBC8-FE26370C148B} = {57D7E39E-6240-4E38-83C2-30D7A21B71C1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1E44CC4F-6BEA-4F0A-A595-C93A2AB3E9F6}

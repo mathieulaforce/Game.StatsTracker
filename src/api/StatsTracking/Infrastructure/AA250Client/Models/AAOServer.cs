@@ -4,7 +4,7 @@ public class AAOServer
 {
     public string Name { get; init; }
     public string Ip { get; init; }
-    public string Mapname { get; init; }
+    public string MapName { get; init; }
     public string CountryIso2 { get; init; }
     public int Ping { get; init; }
     public int NumberOfPlayers { get; init; }
@@ -12,4 +12,5 @@ public class AAOServer
     public string Version{ get; init; }
     public DateTimeOffset LastOnlineSince { get; set; }
     public bool IsOnline { get; set; }
+    public bool PasswordProtected { get; set; }
 }

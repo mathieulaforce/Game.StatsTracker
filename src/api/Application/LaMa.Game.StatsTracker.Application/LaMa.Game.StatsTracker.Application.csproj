@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\GameSessionProcessor\LaMa.Game.GameSessionProcessor.Client\LaMa.Game.GameSessionProcessor.Client.csproj" />
+    <ProjectReference Include="..\..\StatsTracking\Infrastructure\AA250Client\AAO25.Client.csproj" />
+    <ProjectReference Include="..\..\StatsTracking\Infrastructure\LaMa.StatsTracking.Data\LaMa.StatsTracking.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Mappers\" />
+  </ItemGroup>
+
+</Project>
