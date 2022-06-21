@@ -4,9 +4,11 @@ import SideNavigationTemplate from '../components/templates/pageLayouts/navbarPa
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <SideNavigationTemplate>
-      <Component {...pageProps} />
-    </SideNavigationTemplate>
+    <div className="bg-slate-900 h-full">
+      <SideNavigationTemplate>
+        <Component {...pageProps} />
+      </SideNavigationTemplate>
+    </div>
   );
 }
 

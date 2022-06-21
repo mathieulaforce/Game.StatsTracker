@@ -17,6 +17,9 @@ const ServerBrowserOverview: React.FC = () => {
 
   useEffect(() => {
     if (servers && servers.length) {
+      const mapNames = new Set(servers.map((s) => s.mapName));
+      setMapNames(Array.from(mapNames.values()));
+
       const filteredServers = servers.filter((server) => {
         if (filter.hasPlayers && server.numberOfPlayers === 0) {
           return false;
@@ -44,7 +47,7 @@ const ServerBrowserOverview: React.FC = () => {
     return <div>loading servers</div>;
   }
   return (
-    <div className="flex gap-2">
+    <div className="flex flex-col gap-2">
       <div>
         <ServerBrowserFilter mapNames={mapNames} />
       </div>

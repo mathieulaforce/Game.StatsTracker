@@ -1,5 +1,5 @@
 import React from 'react';
-import LabelCheckbox from '../../../../components/ui/molecules/labelCheckbox';
+import ToggleButton from '../../../../components/ui/atoms/buttons/toggleButton';
 import { useServerFilter, useUpdateServerFilter } from '../ServerFilter';
 
 interface PlayersFilterSectionProps {}
@@ -9,15 +9,13 @@ const PlayersFilterSection: React.FC<PlayersFilterSectionProps> = (props) => {
   const { setPlayerFilter } = useUpdateServerFilter();
   return (
     <section>
-      <header>Players</header>
-      <div className="pl-2">
-        <LabelCheckbox
-          id="hasPlayers"
-          label="Has players"
+      <div className="flex gap-2 hover:text-sky-400 cursor-pointer">
+        <header>Players</header>
+        <ToggleButton
+          isChecked={!!hasPlayers}
           onChange={() => {
             setPlayerFilter(!hasPlayers);
           }}
-          isChecked={hasPlayers}
         />
       </div>
     </section>

@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
-
-export type ServerStatus = 'online' | 'offline';
+import { ServerStatus } from '../../../types/serverStatus';
 
 export interface ServerFilter {
   serverStatus?: 'online' | 'offline';

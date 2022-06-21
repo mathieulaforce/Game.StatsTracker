@@ -11,7 +11,7 @@ const ToolTip: React.FC<ToolTipProps> = ({ children, message, position = 'top' }
 
   switch (position) {
     case 'top':
-      className = '-top-8 before:top-full before:border-t-black/60';
+      className = '-top-8 before:top-full before:border-t-slate-500';
       break;
     case 'right':
       className = `top-1/2 left-[calc(100%_+_theme('spacing.8'))]
@@ -21,7 +21,7 @@ const ToolTip: React.FC<ToolTipProps> = ({ children, message, position = 'top' }
       before:border-r-black/60`;
       break;
     case 'bottom':
-      className = '-bottom-8 before:bottom-full before:border-b-black/60';
+      className = '-bottom-8 before:bottom-full before:border-b-slate-500';
       break;
     case 'left':
       className = `top-1/2 right-0
@@ -37,11 +37,11 @@ const ToolTip: React.FC<ToolTipProps> = ({ children, message, position = 'top' }
       {children}
       <span
         className={`absolute left-1/2 -translate-x-1/2 p-1 z-50 
-      rounded-lg bg-black/60 text-sm text-white leading-1 whitespace-nowrap
+      rounded-lg bg-slate-500 text-sm  leading-1 whitespace-nowrap
       invisible group-hover:visible
       before:left-1/2 
       before:border-solid before:border-transparent before:border-4
-      before:absolute before:-ml-1 before:h-0 before:w-0
+      before:absolute before:-ml-1 before:h-0 before:w-0 text-white
       ${className}`}
       >
         {message}
