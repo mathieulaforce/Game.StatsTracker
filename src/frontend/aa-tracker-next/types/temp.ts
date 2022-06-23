@@ -1,6 +1,11 @@
 export interface Server {
   hostname: string;
   ipAddress: string;
+  cheats: boolean;
+  version: string;
+  miles: boolean;
+  adminName: string;
+  passwordProtected: boolean;
 }
 
 export interface MatchInformation {

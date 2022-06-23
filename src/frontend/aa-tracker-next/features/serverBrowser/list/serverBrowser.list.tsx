@@ -1,8 +1,7 @@
 import React from 'react';
+import Panel from '../../../components/ui/atoms/panel';
 import { GameServer } from '../../../types/gameServer';
-import ServerBrowserListHeader from './serverBrowser.list.header';
-import ServerBrowserListBody from './serverBrowser.list.body';
-import ServerListItem from './serverListItem';
+import ServerBrowserListItem from './serverBrowser.list.item';
 
 interface ServerBrowserListProps {
   gameServers: GameServer[];
@@ -10,11 +9,19 @@ interface ServerBrowserListProps {
 }
 
 const ServerBrowserList: React.FC<ServerBrowserListProps> = ({ gameServers, onServerClicked }) => {
+  if (!gameServers?.length) {
+    return (
+      <div className="grid w-full h-full content-center justify-center ">
+        <Panel className="text-lg animate-pulse rounded">No servers found</Panel>
+      </div>
+    );
+  }
   return (
-    <table className="w-full">
-      <ServerBrowserListHeader />
-      <ServerBrowserListBody gameServers={gameServers} onServerClicked={onServerClicked} />
-    </table>
+    <div className="flex flex-wrap gap-4 justify-center">
+      {gameServers.map((server) => {
+        return <ServerBrowserListItem key={server.ip} gameServer={server} onServerClicked={onServerClicked} />;
+      })}
+    </div>
   );
 };
 export default ServerBrowserList;

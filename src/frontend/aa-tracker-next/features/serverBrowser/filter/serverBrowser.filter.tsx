@@ -5,6 +5,7 @@ import ServerStatusFilterSection from './sections/serverStatusFilterSection';
 import { useUpdateServerFilter } from './ServerFilter';
 import { XIcon } from '@heroicons/react/solid';
 import ToolTip from '../../../components/ui/atoms/toolTip/toolTip';
+import Panel from '../../../components/ui/atoms/panel';
 
 interface ServerBrowserFilterProps {
   mapNames: string[];
@@ -13,7 +14,7 @@ interface ServerBrowserFilterProps {
 const ServerBrowserFilter: React.FC<ServerBrowserFilterProps> = (props) => {
   const { resetFilter } = useUpdateServerFilter();
   return (
-    <section className="p-2 bg-slate-800 rounded-xl shadow-lg   ring-1 ring-white/10 ring-inset text-white/80">
+    <Panel className="p-2 bg-opacity-50">
       <div className="flex gap-4 items-center">
         <ServerStatusFilterSection />
         <PlayersFilterSection />
@@ -24,7 +25,7 @@ const ServerBrowserFilter: React.FC<ServerBrowserFilterProps> = (props) => {
           </span>
         </ToolTip>
       </div>
-    </section>
+    </Panel>
   );
 };
 

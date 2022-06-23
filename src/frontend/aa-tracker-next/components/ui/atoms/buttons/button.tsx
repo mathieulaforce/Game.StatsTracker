@@ -1,6 +1,6 @@
 import React from 'react';
 interface ButtonProps {
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  onClick?: React.MouseEventHandler<HTMLButtonElement> | null;
   variant?: 'primary' | 'light' | 'dark';
   className?: string;
   children: React.ReactNode;
@@ -12,12 +12,12 @@ export const Button: React.FC<ButtonProps> = ({ onClick, variant = 'light', chil
   if (variant === 'dark') {
     color = 'bg-gray-800 text-gray-300 hover:bg-gray-700 focus-visible:ring-gray-700 focus-visible:ring-offset-gray-900 disabled:bg-gray-800/50';
   } else if (variant === 'primary') {
-    color = 'focus:ring-slate-400 focus:ring-offset-slate-50 text-white  bg-sky-500 highlight-white/20 hover:bg-sky-400 disabled:bg-sky-500/50';
+    color = 'focus:ring-slate-400 focus:ring-offset-slate-50 text-white bg-sky-700 highlight-white/20 hover:bg-sky-400 disabled:bg-sky-500/50';
   }
 
   return (
     <button
-      onClick={onClick}
+      onClick={onClick ?? undefined}
       disabled={disabled}
       className={`rounded-lg p-1 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${color} ${className}`}
     >

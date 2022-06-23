@@ -14,6 +14,7 @@ public interface IServerRepository
     GameSession GetServerSession(string ipAddressWithPort); 
     Task<IReadOnlyCollection<GameServer>> GetServers(); 
     Task<GameServer> InsertOrUpdate(GameServer server);
+     
 }
 
 public class ServerRepository : IServerRepository
@@ -55,4 +56,6 @@ public class ServerRepository : IServerRepository
         var response = await Container.UpsertItemAsync(server.MapToDto());
         return response.Resource.MapToDomain();
     }
+
+    
 }

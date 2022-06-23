@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
-
+import { spin } from '@heroicons/react/solid';
 const Home: NextPage = () => {
   return (
     <div>
@@ -12,7 +12,7 @@ const Home: NextPage = () => {
       </Head>
       <h1 className="text-3xl font-bold underline text-right">Hello world!</h1>
       <main>welcome</main>
-
+      
       <footer></footer>
     </div>
   );

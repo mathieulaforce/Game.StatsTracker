@@ -8,12 +8,21 @@ public static class GameSpy2Mappers
 {
     public static GameSession MapToGameSession(this GameSpy2QueryResponse response, IPEndPoint endPoint)
     {
-        var hostname = GetHostname(response.Value); 
-        var gameServer = new GameServerSession(hostname, endPoint.ToString());
+        var gameServer = GetGameServerSession(response.Value, endPoint);
         var matchInformation = GetMatchInformation(response.Value);
         var scoreBoard = GetScoreBoard(response.Value);
 
         return new GameSession(gameServer, matchInformation, scoreBoard);
+    }
+
+    private static GameServerSession GetGameServerSession(string response, IPEndPoint endPoint)
+    {
+       var passwordProtected =  GetKeyValueByRegexOrDefault(response, "password\\0(.*?)\\0") ?? "N/A";
+       var cheats =  GetKeyValueByRegexOrDefault(response, "cheats\\0(.*?)\\0") ?? "N/A";
+       var miles =  GetKeyValueByRegexOrDefault(response, "miles\\0(.*?)\\0") ?? "N/A";
+       var adminName =  GetKeyValueByRegexOrDefault(response, "AdminName\\0(.*?)\\0") ?? "N/A";
+       var version =  GetKeyValueByRegexOrDefault(response, "gamemode\\0(.*?)\\0") ?? "N/A";
+       return new GameServerSession(GetHostname(response), endPoint.ToString(),passwordProtected =="1" ,version ,cheats =="1" ,miles =="1" ,adminName );
     }
 
     private static ScoreBoard GetScoreBoard(string response)

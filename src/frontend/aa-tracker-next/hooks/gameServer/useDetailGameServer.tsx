@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { GameSession } from '../../types/temp';
-const useDetailGameServer = (ip: string | null): [boolean, GameSession | undefined] => {
+const useGameSession = (ip: string | null): [boolean, GameSession | undefined] => {
   const [isLoading, setIsLoading] = useState(false);
-  const [server, setServer] = useState<GameSession | undefined>();
+  const [gameSession, setGameSession] = useState<GameSession | undefined>();
 
   useEffect(() => {
     const loadServer = async () => {
@@ -22,12 +22,12 @@ const useDetailGameServer = (ip: string | null): [boolean, GameSession | undefin
     }
 
     loadServer().then((result) => {
-      setServer(result);
+      setGameSession(result);
       setIsLoading(false);
     });
   }, [ip]);
 
-  return [isLoading, server];
+  return [isLoading, gameSession];
 };
 
-export default useDetailGameServer;
+export default useGameSession;

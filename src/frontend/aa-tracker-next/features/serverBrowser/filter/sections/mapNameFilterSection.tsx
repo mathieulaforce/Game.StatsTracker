@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import Button from '../../../../components/ui/atoms/buttons/button';
-import LabelCheckbox from '../../../../components/ui/molecules/labelCheckbox';
 import { useServerFilter, useUpdateServerFilter } from '../ServerFilter';
 import { PlusIcon, XIcon } from '@heroicons/react/solid';
+import ClickOutsideElementProvider from '../../../../components/ui/utils/ClickOutsideElementProvider';
+import Panel from '../../../../components/ui/atoms/panel';
 
 interface MapNamesFilterSectionProps {
   mapNames: string[];
@@ -12,36 +13,51 @@ const MapNamesFilterSection: React.FC<MapNamesFilterSectionProps> = (props) => {
   const { mapNames } = useServerFilter();
   const { setMapFilter } = useUpdateServerFilter();
 
+  const [showMapsDropdown, setShowMapsDropdown] = useState<'invisible' | 'visible'>('invisible');
+
   return (
     <section className="flex items-center">
       <div className="group relative inline-block mx-1 mb-1 ">
-        <Button variant="primary" className="px-2 text-sm peer" disabled={mapNames.length === 5}>
+        <Button
+          variant="primary"
+          className="px-2 text-sm peer"
+          disabled={mapNames.length === 5}
+          onClick={() => setShowMapsDropdown(showMapsDropdown === 'invisible' ? 'visible' : 'invisible')}
+        >
           <PlusIcon className="w-3" />
-          Map
+          Map ({mapNames.length}/5)
         </Button>
 
-        <div id="dropdownBottom" className="z-10 rounded shadow mt-2 bg-slate-700 hidden top-5 group-hover:block absolute peer-disabled:hidden ">
-          <div className="w-max">
-            <div className=" grid grid-cols-3 text-sm w-fit text-gray-200" aria-labelledby="dropdownBottomButton">
-              {props.mapNames
-                .filter((mapName) => mapNames.indexOf(mapName) === -1)
-                .map((mapName) => {
-                  return (
-                    <div
-                      key={mapName}
-                      onClick={() => {
-                        setMapFilter([...mapNames, mapName]);
-                      }}
-                    >
-                      <a href="#" className="block px-4 py-2 hover:bg-gray-600 hover:text-white">
-                        {mapName}
-                      </a>
-                    </div>
-                  );
-                })}
+        <Panel className={`z-10 shadow shadow-sky-400 mt-2 ${showMapsDropdown} top-5 absolute peer-disabled:invisible`}>
+          <ClickOutsideElementProvider
+            onOutsideClick={function (): void {
+              if (showMapsDropdown === 'visible') {
+                setShowMapsDropdown('invisible');
+              }
+            }}
+          >
+            <div className="w-max relative">
+              <div className=" grid grid-cols-3 text-sm w-fit text-gray-200">
+                {props.mapNames
+                  .filter((mapName) => mapNames.indexOf(mapName) === -1)
+                  .map((mapName) => {
+                    return (
+                      <div
+                        key={mapName}
+                        onClick={() => {
+                          setMapFilter([...mapNames, mapName]);
+                        }}
+                      >
+                        <a href="#" className="block px-4 py-2 hover:bg-gray-600 hover:text-white">
+                          {mapName}
+                        </a>
+                      </div>
+                    );
+                  })}
+              </div>
             </div>
-          </div>
-        </div>
+          </ClickOutsideElementProvider>
+        </Panel>
       </div>
       {mapNames.map((mapName) => {
         return (

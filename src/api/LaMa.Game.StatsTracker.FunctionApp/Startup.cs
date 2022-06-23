@@ -42,13 +42,13 @@ public class Startup: FunctionsStartup
             .WithSerializerOptions(new CosmosSerializationOptions { PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase })
             .WithBulkExecution(true)
             .Build());
-        builder.Services.AddSingleton<ICosmosContainerClient, CosmosContainerClient>(provider => new CosmosContainerClient(provider.GetService<CosmosClient>(),"GameStatsTracker"));
+        builder.Services.AddSingleton<ICosmosContainerClient, CosmosContainerClient>(provider => new CosmosContainerClient(provider.GetService<CosmosClient>(), "lama-tracker"));
 
         using (var client = new CosmosClient(endpoint, authKey))
         {
-            var db = client.CreateDatabaseIfNotExistsAsync("GameStatsTracker").GetAwaiter().GetResult();
+            var db = client.CreateDatabaseIfNotExistsAsync("lama-tracker").GetAwaiter().GetResult();
             db.Database.CreateContainerIfNotExistsAsync("GameServer", "/game").GetAwaiter().GetResult();
-            db.Database.CreateContainerIfNotExistsAsync("GameMatch", "/game").GetAwaiter().GetResult();
+            //db.Database.CreateContainerIfNotExistsAsync("GameMatch", "/game").GetAwaiter().GetResult();
         }
         //end move
     }

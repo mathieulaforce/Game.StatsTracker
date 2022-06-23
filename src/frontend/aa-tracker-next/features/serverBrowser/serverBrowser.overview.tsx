@@ -5,6 +5,7 @@ import { GameServer } from '../../types/gameServer';
 import ServerBrowserFilter from './filter/serverBrowser.filter';
 import { useServerFilter } from './filter/ServerFilter';
 import { useRouter } from 'next/router';
+import Spinner from '../../components/ui/atoms/loaders/spinner';
 
 const ServerBrowserOverview: React.FC = () => {
   const [isLoading, servers] = useGameServerList();
@@ -27,6 +28,9 @@ const ServerBrowserOverview: React.FC = () => {
         if (filter.serverStatus === 'online' && !server.isOnline) {
           return false;
         }
+        if (filter.serverStatus === 'offline' && server.isOnline) {
+          return false;
+        }
         if (filter.mapNames.length && !~filter.mapNames.indexOf(server.mapName)) {
           return false;
         }
@@ -35,6 +39,9 @@ const ServerBrowserOverview: React.FC = () => {
       });
       setSortedServer(
         filteredServers.sort((a, b) => {
+          if (a.numberOfPlayers > 0 || b.numberOfPlayers > 0) {
+            return b.numberOfPlayers - a.numberOfPlayers;
+          }
           if (a.mapName === b.mapName) return 0;
           if (a.mapName < b.mapName) return -1;
           return 1;
@@ -44,14 +51,18 @@ const ServerBrowserOverview: React.FC = () => {
   }, [servers, filter]);
 
   if (isLoading) {
-    return <div>loading servers</div>;
+    return (
+      <div className="m-auto h-full">
+        <Spinner />
+      </div>
+    );
   }
   return (
-    <div className="flex flex-col gap-2">
-      <div>
+    <div className="flex flex-col gap-4 h-full ">
+      <div className="">
         <ServerBrowserFilter mapNames={mapNames} />
       </div>
-      <div className="flex-grow">
+      <div className="flex-grow ">
         <ServerBrowserList gameServers={sortedServers} onServerClicked={(ip) => router.push('/serverBrowser/' + ip)} />
       </div>
     </div>

@@ -1,10 +1,9 @@
 import * as React from 'react';
-import Navbar from '../../ui/organism/navbar/navbar';
 import StickyNavbar from '../../ui/organism/navbar/stickyNavbar';
 
 const NavbarPageTemplate: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <div className="antialiased  text-slate-400  bg-slate-900 vw">
+    <div className="antialiased text-slate-400  bg-slate-900 h-full">
       <div className="absolute z-20 top-0 inset-x-0 flex justify-center overflow-hidden pointer-events-none">
         <div className="w-[108rem] flex-none flex justify-end">
           <picture>
@@ -13,9 +12,10 @@ const NavbarPageTemplate: React.FC<{ children: React.ReactNode }> = ({ children 
           </picture>
         </div>
       </div>
-      <StickyNavbar />
-      {/* <Navbar /> */}
-      <main className="hidden lg:block fixed z-20 inset-0 top-[5rem] pb-10 px-8 overflow-y-auto">{children}</main>
+      <div className="flex flex-col gap-4 h-full overflow-auto">
+        <StickyNavbar />
+        <main className="flex-grow w-full px-8">{children}</main>
+      </div>
     </div>
   );
 };

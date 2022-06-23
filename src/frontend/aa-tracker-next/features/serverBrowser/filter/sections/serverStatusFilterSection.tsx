@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import OnlineStateIcon from '../../../../components/ui/atoms/onlineStateIcon';
+import ToolTip from '../../../../components/ui/atoms/toolTip/toolTip';
 import LabelCheckbox from '../../../../components/ui/molecules/labelCheckbox';
 import { ServerStatus } from '../../../../types/serverStatus';
 import { serverStatusToBool } from '../../../../utils/serverStateUtils';
@@ -23,9 +24,11 @@ const ServerStatusFilterSection: React.FC<ServerStatusFilterSectionProps> = (pro
 
   return (
     <section>
-      <div className="flex gap-2 hover:text-sky-400 cursor-pointer" onClick={() => setServerStatusFilter(getNextServerStatus(serverStatus))}>
+      <div className="flex gap-4 hover:text-sky-400 cursor-pointer" onClick={() => setServerStatusFilter(getNextServerStatus(serverStatus))}>
         <header>Server status</header>
-        <OnlineStateIcon allowTriState={true} isOnline={serverStatusToBool(serverStatus)} className="block w-5 cursor-pointer hover:animate-spin" />
+        <ToolTip message={serverStatus ?? 'online / offline'}>
+          <OnlineStateIcon allowTriState={true} isOnline={serverStatusToBool(serverStatus)} className="block w-5 cursor-pointer" />
+        </ToolTip>
       </div>
     </section>
   );

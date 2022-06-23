@@ -23,7 +23,7 @@ const ServerListItem: React.FC<ServerListItemProps> = ({ gameServer, onServerCli
       <div className="p-1 text-white w-full text-center">
         <h3 className="truncate">{gameServer.name}</h3>
 
-        <div className="flex gap-2 justify-center">
+        <div className="flex gap-4 justify-center">
           <div className="">{gameServer.ip}</div>
           <OnlineStateIndicator isOnline iconClassName="w-5" />
         </div>
