@@ -6,7 +6,7 @@ interface SpinnerProps {
 
 export const Spinner: React.FC<SpinnerProps> = (props) => {
   return (
-    <div className="relative w-max h-full w-full">
+    <div className="relative mx-auto w-max h-full w-full">
       <svg
         role="status"
         className="w-24 h-24  bottom-0 top-0 right-0 m-auto animate-ping text-sky-700 opacity-50 fill-sky-700 absolute"

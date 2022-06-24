@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ClipboardIcon } from '@heroicons/react/solid';
+import { DuplicateIcon } from '@heroicons/react/solid';
 import ToolTip from './toolTip/toolTip';
 
 interface CopyToClipboardTextProps {
@@ -11,7 +11,7 @@ const CopyToClipboardText: React.FC<CopyToClipboardTextProps> = ({ text, classNa
   return (
     <>
       {text}
-      <ClipboardIcon className={`ml-2 w-4 cursor-pointer hover:text-sky-600 ${className}`} onClick={() => navigator.clipboard.writeText(text)} />
+      <DuplicateIcon className={`ml-2 w-4 cursor-pointer hover:text-sky-600 ${className}`} onClick={() => navigator.clipboard.writeText(text)} />
     </>
   );
 };

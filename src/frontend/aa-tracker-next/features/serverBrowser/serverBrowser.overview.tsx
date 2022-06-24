@@ -52,9 +52,7 @@ const ServerBrowserOverview: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="m-auto h-full">
-        <Spinner />
-      </div>
+      <Spinner />
     );
   }
   return (

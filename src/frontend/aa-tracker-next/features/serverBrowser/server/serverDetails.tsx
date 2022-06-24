@@ -17,9 +17,7 @@ const ServerDetails: React.FC<ServerDetailsProps> = ({ ip }) => {
 
   if (isLoading) {
     return (
-      <div className="m-auto h-full">
-        <Spinner />
-      </div>
+      <Spinner />
     );
   }
   if (!gameSession) {
@@ -36,36 +34,39 @@ const ServerDetails: React.FC<ServerDetailsProps> = ({ ip }) => {
             <div className="  ">
               <img src={mapNameToImageSrc(gameSession.matchInformation.mapName, '300px')} alt={gameSession.matchInformation.mapName} className="w-full px-0.5" />
             </div>
-            <div className="grid grid-cols-[auto_1fr] h-max gap-4 p-4 ">
+            <div className="grid grid-cols-[auto_auto_auto_auto] h-max gap-2 p-4 ">
               <label className="capitalize text-slate-200">name:</label>
-              <div>
+              <div className='col-span-3  text-right'>
                 <CopyToClipboardText text={gameSession.server.hostname} />
               </div>
               <label className="capitalize">ip:</label>
-              <div>
+              <div className='col-span-3  text-right'>
                 <CopyToClipboardText text={gameSession.server.ipAddress} />
               </div>
+              <label className="capitalize">admin name:</label>
+              <div className='col-span-3  text-right'>
+                <CopyToClipboardText text={gameSession.server.adminName} />
+              </div>
               <label className="capitalize">Online:</label>
-              <div>
-                <div>yes</div>
+              <div className='mr-2'>
+                <div>yes <OnlineStateIndicator isOnline iconClassName='w-5' /></div>
               </div>
               <label className="capitalize">Password:</label>
-              <div>{gameSession.server.passwordProtected ? 'yes' : 'no'}</div>
+              <div>{gameSession.server.passwordProtected ? 'yes' : 'no'} <PasswordStateIndicator iconClassName='w-5 text-slate-500' isLocked={gameSession.server.passwordProtected} /></div>
 
-              <label className="capitalize"># players:</label>
+              <label className="capitalize">players:</label>
               <div> {gameSession.scoreBoard.onlinePlayers.length}</div>
 
               <label className="capitalize">rounds:</label>
               <div>
-                {' '}
                 {gameSession.matchInformation.currentRound} /{gameSession.matchInformation.totalRounds}{' '}
               </div>
 
               <label className="capitalize"> time left:</label>
               <div> {gameSession.matchInformation.timeLeft}</div>
 
-              <label className="capitalize">Password:</label>
-              <div>{gameSession.server.passwordProtected ? 'yes' : 'no'}</div>
+              <label className="capitalize">server version:</label>
+              <div>{gameSession.server.version}</div>
 
               <label className="capitalize">cheats:</label>
               <div>{gameSession.server.cheats ? 'yes' : 'no'}</div>
@@ -73,8 +74,7 @@ const ServerDetails: React.FC<ServerDetailsProps> = ({ ip }) => {
               <label className="capitalize">miles:</label>
               <div>{gameSession.server.miles ? 'yes' : 'no'}</div>
 
-              <label className="capitalize">server version:</label>
-              <div>{gameSession.server.version}</div>
+
             </div>
           </div>
         </Panel>
