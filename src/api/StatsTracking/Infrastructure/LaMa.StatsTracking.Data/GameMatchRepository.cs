@@ -33,7 +33,7 @@ public class GameMatchRepository : IGameMatchRepository
     public ServerGameMatches GetServerMatches(IpAddress ipAddress)
     {
         var gameMatch = Container.GetItemLinqQueryable<GameMatchDTO>(true)
-            .Where(gameMatch => gameMatch.ServerIp == ipAddress.ToString() && !gameMatch.IsFinished)
+            .Where(gameMatch => gameMatch.Ip == ipAddress.ToString() && !gameMatch.IsFinished)
             .AsEnumerable()
             .FirstOrDefault();
          
@@ -50,7 +50,7 @@ public class GameMatchRepository : IGameMatchRepository
     public async Task<List<GameMatch>> GetFinishedServerMatches(IpAddress ipAddress)
     {
         var gameMatchesFeedIterator = Container.GetItemLinqQueryable<GameMatchDTO>(true)
-            .Where(gameMatch => gameMatch.ServerIp == ipAddress.ToString() && gameMatch.IsFinished)
+            .Where(gameMatch => gameMatch.Ip == ipAddress.ToString() && gameMatch.IsFinished)
             .ToFeedIterator();
 
         var gameMatches = new List<GameMatch>();
@@ -67,7 +67,11 @@ public class GameMatchRepository : IGameMatchRepository
     {
         foreach (var serverGameMatch in serverMatches.GetGameMatches())
         {
-            var dto = serverGameMatch.MapToDTO();
+            if (serverGameMatch.CurrentRoundInformation.CurrentRound == 0)
+            {
+                return;
+            }
+            var dto = serverGameMatch.MapToDTO(); 
             var response = await Container.UpsertItemAsync(dto); 
         }
         

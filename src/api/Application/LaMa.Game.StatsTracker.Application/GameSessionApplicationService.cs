@@ -12,7 +12,7 @@ public interface IGameSessionApplicationService
 
     Task HandleGameSessionSnapshot(string ip, int port);
 
-    Task FinelizeMatch(string ip, int port);
+    Task FinalizeMatch(string ip, int port);
 }
 
 public class GameSessionApplicationService : IGameSessionApplicationService
@@ -42,14 +42,14 @@ public class GameSessionApplicationService : IGameSessionApplicationService
 
     }
 
-    public async Task FinelizeMatch(string ip, int port)
+    public async Task FinalizeMatch(string ip, int port)
     {
         var ipAddress = new IpAddress(ip, port);
         var serverMatches =await _gameMatchRepository.GetFinishedServerMatches(ipAddress);
 
         foreach (var serverMatch in serverMatches)
         {
-            serverMatch.GetMatchScoreBoard();
+            var scoreboard = serverMatch.GetFinalizedScoreboard();
         }
 
     }

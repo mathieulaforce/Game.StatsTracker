@@ -33,7 +33,7 @@ namespace LaMa.Game.StatsTracker.FunctionApp.Functions
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "servers/{ip}")] HttpRequest req, string ip)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request.");
-
+            await Task.CompletedTask;
             var servers = _serverRepository.GetServerSession(ip);
 
             return new OkObjectResult(servers);

@@ -8,7 +8,7 @@ public static class GameMatchMapper
 {
     public static GameMatch MapToDomain(this GameMatchDTO match)
     {
-        var serverIp = new IpAddress(match.ServerIp);
+        var serverIp = new IpAddress(match.Ip);
         var domain = new GameMatch(match.Id, serverIp, match.MapName);
         foreach (var matchRoundScore in match.RoundScores)
         {
@@ -27,7 +27,7 @@ public static class GameMatchMapper
             TimeLeft = match.CurrentRoundInformation.TimeLeft,
             IsFinished = match.IsFinished,
             MapName = match.MapName,
-            ServerIp = match.ServerIp.ToString(),
+            Ip = match.ServerIp.ToString(),
             RoundScores = match.MatchScoreBoard.Rounds.Select(r => new RoundScoreDTO
             {
                 SessionPlayers = r.SessionPlayers.Select(p => p.MapToDTO()).ToList(),

@@ -1,5 +1,5 @@
 // Default URL for triggering event grid function in the local environment.
-// http://localhost:7071/runtime/webhooks/EventGrid?functionName={functionname}
+// http://localhost:7071/runtime/webhooks/EventGrid?functionName=GameSessionProcessorEventFunction
 using System;
 using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
@@ -38,7 +38,7 @@ namespace LaMa.Game.StatsTracker.FunctionApp.Functions
             }
             if (GameSessionProcessEventTypes.FinalizeMatch == eventGridEvent.EventType)
             {
-                await _gameSessionApplicationService.FinelizeMatch(processEventData.Data.Ip, processEventData.Data.Port);
+                await _gameSessionApplicationService.FinalizeMatch(processEventData.Data.Ip, processEventData.Data.Port);
             }
         }
 

@@ -28,6 +28,7 @@ public class Startup: FunctionsStartup
         
         builder.Services.AddTransient<IServerRepository, ServerRepository>();
         builder.Services.AddTransient<IGameMatchRepository, GameMatchRepository>();
+        builder.Services.AddTransient<IPlayerRepository, PlayerRepository>();
         builder.Services.AddTransient<IServerApplicationService, ServerApplicationService>();
         builder.Services.AddTransient<IGameSessionProcessorEventPublisher, GameSessionProcessorEventPublisher>();
         builder.Services.AddTransient<IGameSessionApplicationService, GameSessionApplicationService>();

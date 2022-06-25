@@ -35,7 +35,7 @@ public class ServerApplicationService : IServerApplicationService
         {
             if (offlineServer.HasPlayers())
             {
-                await _gameSessionProcessorEventPublisher.PublishFinalizeTracking(offlineServer.IpAddress.Ip, offlineServer.IpAddress.Port);
+                await _gameSessionProcessorEventPublisher.PublishFinalizeMatch(offlineServer.IpAddress.Ip, offlineServer.IpAddress.Port);
             }
             offlineServer.SetOffline();
             await _serverRepository.InsertOrUpdate(offlineServer);

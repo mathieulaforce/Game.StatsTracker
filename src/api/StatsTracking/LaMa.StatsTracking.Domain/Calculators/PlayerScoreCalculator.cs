@@ -6,7 +6,9 @@
         int GetNumberOfDeaths(IPlayer player);
         decimal GetFragRate(IPlayer player);
         int GetTotalScore(IPlayer player);
-        int CalculateHonor(IPlayer player);
+        int CalculateLevel(IPlayer player);
+
+        KillDeathStreak CalculateKillStreak(TrackedPlayer trackedPlayer, int lastDeathNumberBeforeKill, int lastKillNumberBeforeDeath);
     }
 
     public class PlayerScoreCalculator : IPlayerScoreCalculator
@@ -44,7 +46,7 @@
             return regularScore + player.Leader;
         }
 
-        public int CalculateHonor(IPlayer player)
+        public int CalculateLevel(IPlayer player)
         {
             var expPointsPer10Lvls = new int[
                 500,//'0-9'        
@@ -85,5 +87,21 @@
             }
             return honor;
         }
+
+        public KillDeathStreak CalculateKillStreak(TrackedPlayer player,  int lastDeathNumberBeforeKill, int lastKillNumberBeforeDeath)
+        {
+            return new KillDeathStreak(player.Kills - lastKillNumberBeforeDeath, player.Kia - lastDeathNumberBeforeKill); 
+        }
     }
-}
+
+    public class KillDeathStreak
+    {
+        public KillDeathStreak(int killStreak, int deathStreak)
+        {
+            KillStreak = killStreak;
+            DeathStreak = deathStreak;
+        }
+        public int KillStreak { get; set; }
+        public int DeathStreak { get; set; }
+    }
+} 

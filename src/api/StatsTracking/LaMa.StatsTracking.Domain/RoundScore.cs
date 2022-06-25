@@ -42,7 +42,8 @@ public class RoundScore
             }
             if (previousRoundSession != null && currentSession != null)
             {
-                if (disconnectedPlayer != null)
+                
+                if (disconnectedPlayer == null)
                 {
                     if (currentSession.IsNewerThan(previousRoundSession))
                     {
