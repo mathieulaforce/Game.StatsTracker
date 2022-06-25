@@ -77,8 +77,8 @@ const mapFileNames = [
   'River_Basin',
   'SFarctic',
   'SFblizzard',
-  'SFCourtyard',
   'SFcsar',
+  'SFCourtyard',
   'SFDockside',
   'SFextraction',
   'SFhospital',
@@ -98,8 +98,8 @@ const mapFileNames = [
   'Woodland_Outpost',
 ];
 
-export const mapNameToImageSrc = (mapName: string, size: '300px' | '720P') => {
-  const result = stringSimilarity.findBestMatch(mapName, mapFileNames);
+export const mapNameToImageSrc = (mapName: string, size: '300px' | '720P') => { 
+  const result = stringSimilarity.findBestMatch(mapName.toLowerCase(), mapFileNames); 
   if (size === '300px') {
     return `https://aao25.com/dist/imgs/screenshots/300px/${result.bestMatch.target.toLowerCase()}.png`;
   }

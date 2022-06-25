@@ -9,6 +9,7 @@
   <ItemGroup>
     <Folder Include="Exceptions\" />
     <Folder Include="Builders\" />
+    <Folder Include="Calculators\" />
     <Folder Include="ValueObjects\" />
   </ItemGroup>
 
