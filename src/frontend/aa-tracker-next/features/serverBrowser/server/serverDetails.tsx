@@ -23,6 +23,7 @@ const ServerDetails: React.FC<ServerDetailsProps> = ({ ip }) => {
   if (!gameSession) {
     return <div>Server not found</div>;
   }
+
   return (
     <div className="text-slate-300 flex gap-2">
       <div>
@@ -31,7 +32,7 @@ const ServerDetails: React.FC<ServerDetailsProps> = ({ ip }) => {
             <div className="text-center bg-sky-700/50 rounded-t p-4 m-0">
               <h3> {gameSession.matchInformation.mapName}</h3>
             </div>
-            <div className="  ">
+            <div>
               <img src={mapNameToImageSrc(gameSession.matchInformation.mapName, '300px')} alt={gameSession.matchInformation.mapName} className="w-full px-0.5" />
             </div>
             <div className="grid grid-cols-[auto_auto_auto_auto] h-max gap-2 p-4 ">
@@ -73,23 +74,33 @@ const ServerDetails: React.FC<ServerDetailsProps> = ({ ip }) => {
 
               <label className="capitalize">miles:</label>
               <div>{gameSession.server.miles ? 'yes' : 'no'}</div>
-
-
             </div>
           </div>
         </Panel>
       </div>
       {!gameSession.scoreBoard.onlinePlayers.length && (
-        <Panel className="ring-1 ring-sky-500 ring-inset bg-opacity-50 ring-opacity-50 w-fit p-0 flex-grow">
-          <div className="p-0 h-full flex flex-col">
-            <div className="text-center bg-sky-700/50 rounded-t p-4 m-0">
-              <h3>Live Scoreboard</h3>
+        <div className='flex-grow flex flex-col gap-4'>
+          <Panel className="ring-1 ring-sky-500 ring-inset bg-opacity-50 w-full ring-opacity-50 p-0">
+            <div className="p-0 h-full flex flex-col">
+              <div className="text-center bg-sky-700/50 rounded-t p-4 m-0">
+                <h3>Live Scoreboard</h3>
+              </div>
+              <div className="grid content-center justify-center flex-grow  p-4">
+                <span className="text-lg animate-pulse ">No players on the server</span>
+              </div>
             </div>
-            <div className="grid content-center justify-center flex-grow">
-              <span className="text-lg animate-pulse   ">No players on the server</span>
+          </Panel>
+          <Panel className="ring-1 ring-sky-500 ring-inset bg-opacity-50 w-full ring-opacity-50 p-0">
+            <div className="p-0 h-full flex flex-col">
+              <div className="text-center bg-sky-700/50 rounded-t p-4 m-0">
+                <h3>Player ranking</h3>
+              </div>
+              <div className="grid content-center justify-center flex-grow p-4">
+                <span className="text-lg animate-pulse">No players have played on this server</span>
+              </div>
             </div>
-          </div>
-        </Panel>
+          </Panel>
+        </div>
       )}
       {gameSession.scoreBoard.onlinePlayers.length > 0 && (
         <Panel className="ring-1 ring-sky-500 ring-inset bg-opacity-50 ring-opacity-50 w-fit p-0 flex-grow">

@@ -1,5 +1,6 @@
 ﻿using LaMa.StatsTracking.Data.DTO;
 using LaMa.StatsTracking.Domain;
+using LaMa.StatsTracking.Domain.Calculators;
 using LaMa.StatsTracking.Domain.ValueObjects;
 
 namespace LaMa.StatsTracking.Data.Mappers;
@@ -29,8 +30,9 @@ public static class PlayerMapper
 
     public static SessionPlayer MapToDomain(this SessionPlayerDTO player)
     {
-        return new SessionPlayer(player.Name, player.Leader, player.Goal, player.Ping, player.Roe, player.KiaPoints,
-            player.KillPoints, player.Honor);
+        var sessionPlayer = new SessionPlayer(player.Name, player.Leader, player.Goal, player.Ping, player.Roe, player.Honor, new PlayerScoreCalculator());
+        sessionPlayer.SetAndCalculateKills( player.KillPoints, player.KiaPoints);
+        return sessionPlayer;
     }
 
 
