@@ -15,6 +15,8 @@ public interface IGameMatchRepository
     ServerGameMatches GetServerMatches(IpAddress ipAddress);
 
     Task UpdateGameMatches(ServerGameMatches serverMatches);
+
+    Task<List<GameMatch>> GetFinishedServerMatches(IpAddress ipAddress);
 }
 
 public class GameMatchRepository : IGameMatchRepository
@@ -31,7 +33,7 @@ public class GameMatchRepository : IGameMatchRepository
     public ServerGameMatches GetServerMatches(IpAddress ipAddress)
     {
         var gameMatch = Container.GetItemLinqQueryable<GameMatchDTO>(true)
-            .Where(gameMatch => gameMatch.ServerIp == ipAddress.ToString())
+            .Where(gameMatch => gameMatch.ServerIp == ipAddress.ToString() && !gameMatch.IsFinished)
             .AsEnumerable()
             .FirstOrDefault();
          
@@ -43,6 +45,22 @@ public class GameMatchRepository : IGameMatchRepository
         }
 
         return new ServerGameMatches(new[] { match });
+    }
+
+    public async Task<List<GameMatch>> GetFinishedServerMatches(IpAddress ipAddress)
+    {
+        var gameMatchesFeedIterator = Container.GetItemLinqQueryable<GameMatchDTO>(true)
+            .Where(gameMatch => gameMatch.ServerIp == ipAddress.ToString() && gameMatch.IsFinished)
+            .ToFeedIterator();
+
+        var gameMatches = new List<GameMatch>();
+        while (gameMatchesFeedIterator.HasMoreResults)
+        {
+            var res = await gameMatchesFeedIterator.ReadNextAsync();
+            gameMatches.AddRange(res.Select(_ => _.MapToDomain()));
+        }
+
+        return gameMatches;  
     }
 
     public async Task UpdateGameMatches(ServerGameMatches serverMatches)

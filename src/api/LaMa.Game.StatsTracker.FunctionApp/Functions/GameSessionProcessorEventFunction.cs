@@ -36,9 +36,9 @@ namespace LaMa.Game.StatsTracker.FunctionApp.Functions
             {
                 await _gameSessionApplicationService.HandleGameSessionSnapshot(processEventData.Data.Ip, processEventData.Data.Port);
             }
-            if (GameSessionProcessEventTypes.FinalizeTracking == eventGridEvent.EventType)
+            if (GameSessionProcessEventTypes.FinalizeMatch == eventGridEvent.EventType)
             {
-                await _gameSessionApplicationService.FinilazeGameSession(processEventData.Data.Ip, processEventData.Data.Port);
+                await _gameSessionApplicationService.FinelizeMatch(processEventData.Data.Ip, processEventData.Data.Port);
             }
         }
 

@@ -9,7 +9,7 @@ public static class GameMatchMapper
     public static GameMatch MapToDomain(this GameMatchDTO match)
     {
         var serverIp = new IpAddress(match.ServerIp);
-        var domain = new GameMatch(serverIp, match.MapName);
+        var domain = new GameMatch(match.Id, serverIp, match.MapName);
         foreach (var matchRoundScore in match.RoundScores)
         {
             domain.RegisterCompletedRound(new RoundInformation(matchRoundScore.RoundNumber,match.TotalRounds,"" ), matchRoundScore.SessionPlayers.MapToDomain(),matchRoundScore.DisconnectedPlayers.MapToDomain());
@@ -21,6 +21,7 @@ public static class GameMatchMapper
     {
         return new GameMatchDTO
         {
+            Id = match.Id,
             CurrentRound = match.CurrentRoundInformation.CurrentRound,
             TotalRounds = match.CurrentRoundInformation.TotalRounds,
             TimeLeft = match.CurrentRoundInformation.TimeLeft,
@@ -33,6 +34,7 @@ public static class GameMatchMapper
                 DisconnectedPlayers = r.DisconnectedPlayers.Select(p => p.MapToDTO()).ToList(),
                 RoundNumber = r.RoundNumber
             }).ToList(), 
+            
         };
     }
 }

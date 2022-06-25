@@ -49,7 +49,7 @@ public class ServerGameMatches
 
     private GameMatch CreateAndRegisterNewMatch(LiveGameSession liveGameSession)
     {
-        var match = new GameMatch(liveGameSession.ServerIp, liveGameSession.Details.MapName);
+        var match = new GameMatch(Guid.NewGuid().ToString(),liveGameSession.ServerIp, liveGameSession.Details.MapName);
         _gameMatches.Add(match);
         if (_gameMatches.Count == 2)
         {

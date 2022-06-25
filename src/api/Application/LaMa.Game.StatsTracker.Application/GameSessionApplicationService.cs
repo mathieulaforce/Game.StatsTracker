@@ -12,19 +12,20 @@ public interface IGameSessionApplicationService
 
     Task HandleGameSessionSnapshot(string ip, int port);
 
-    Task FinilazeGameSession(string ip, int port);
+    Task FinelizeMatch(string ip, int port);
 }
 
 public class GameSessionApplicationService : IGameSessionApplicationService
 {
     private readonly IAAO25Client _aao25Client;
-    private readonly IGameMatchRepository _gameMatchRepository;
+    private readonly IGameMatchRepository _gameMatchRepository; 
+    private readonly IGameSessionProcessorEventPublisher _gameSessionProcessorEventPublisher;
 
-
-    public GameSessionApplicationService(IAAO25Client aao25Client, IGameMatchRepository gameMatchRepository)
+    public GameSessionApplicationService(IAAO25Client aao25Client, IGameMatchRepository gameMatchRepository, IGameSessionProcessorEventPublisher gameSessionProcessorEventPublisher)
     {
         _aao25Client = aao25Client;
         _gameMatchRepository = gameMatchRepository;
+        _gameSessionProcessorEventPublisher = gameSessionProcessorEventPublisher;
     } 
 
     public async Task HandleGameSessionSnapshot(string ip, int port)
@@ -33,11 +34,23 @@ public class GameSessionApplicationService : IGameSessionApplicationService
         var gameSessionSnapShot = _aao25Client.GetServerDetails(ipAddress.ToString()).MapToLiveGameSession();
         var serverMatches = _gameMatchRepository.GetServerMatches(ipAddress);
         serverMatches.RegisterGameSession(gameSessionSnapShot);
-        await _gameMatchRepository.UpdateGameMatches(serverMatches); 
+        await _gameMatchRepository.UpdateGameMatches(serverMatches);
+        foreach (var match in serverMatches.GetGameMatches().Where(_=>_.IsFinished))
+        {
+            await _gameSessionProcessorEventPublisher.PublishFinalizeMatch(match.ServerIp.Ip, match.ServerIp.Port);
+        }
+
     }
 
-    public Task FinilazeGameSession(string ip, int port)
+    public async Task FinelizeMatch(string ip, int port)
     {
-        throw new NotImplementedException();
+        var ipAddress = new IpAddress(ip, port);
+        var serverMatches =await _gameMatchRepository.GetFinishedServerMatches(ipAddress);
+
+        foreach (var serverMatch in serverMatches)
+        {
+            serverMatch.GetMatchScoreBoard();
+        }
+
     }
 }

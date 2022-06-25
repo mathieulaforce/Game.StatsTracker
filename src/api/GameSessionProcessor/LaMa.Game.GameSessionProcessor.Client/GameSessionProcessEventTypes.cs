@@ -3,14 +3,14 @@
 public static class GameSessionProcessEventTypes
 {
     public static readonly string GameSessionTracking = nameof(GameSessionTracking);
-    public static readonly string FinalizeTracking = nameof(FinalizeTracking);
+    public static readonly string FinalizeMatch = nameof(FinalizeMatch);
 
     public static bool IsEventType(string value)
     {
         return new []
         {
             GameSessionTracking, 
-            FinalizeTracking
+            FinalizeMatch
         }.Contains(value);
     }
 }

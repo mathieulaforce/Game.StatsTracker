@@ -9,7 +9,7 @@ public class GameMatchDTO
         RoundScores = new List<RoundScoreDTO>();
     }
 
-    public string Id => ServerIp;
+    public string Id { get; set; }
     public string ServerIp { get; set; }
     public string MapName { get; set; }
     public string Game => "AAO2.5";

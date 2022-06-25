@@ -19,8 +19,7 @@ namespace LaMa.Game.StatsTracker.FunctionApp.Functions
     [FunctionName(nameof(OnlineServerHealthFunction))]
     public async Task Run([TimerTrigger("0/30 * * * * *", RunOnStartup = true)] TimerInfo myTimer, ILogger log)
     { 
-      log.LogInformation($"Fetching server list on {DateTime.UtcNow}");
-      using var client = new HttpClient();
+      log.LogInformation($"Fetching server list on {DateTime.UtcNow}"); 
       await _serverApplicationService.ContactAndUpdateServers(); 
     }
   }

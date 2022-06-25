@@ -5,14 +5,16 @@ namespace LaMa.StatsTracking.Domain;
 
 public class GameMatch
 {
-    public GameMatch(IpAddress serverIp, string mapName)
+    public GameMatch(string id, IpAddress serverIp, string mapName)
     {
+        Id = id;
         ServerIp = serverIp;
         MapName = mapName; 
         CurrentRoundInformation = RoundInformation.Empty;
         MatchScoreBoard = new MatchScoreBoard();
     }
 
+    public string Id { get; }
     public IpAddress ServerIp { get; }
     public string MapName { get; }
     public RoundInformation CurrentRoundInformation { get; private set; }
@@ -65,5 +67,10 @@ public class GameMatch
     public void MarkAsFinished()
     {
         IsFinished = true;
+    }
+
+    public void GetMatchScoreBoard()
+    {
+        this.MatchScoreBoard
     }
 }

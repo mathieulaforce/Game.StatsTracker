@@ -6,8 +6,9 @@ namespace LaMa.Game.GameSessionProcessor.Client
 
     public interface IGameSessionProcessorEventPublisher
     {
-        Task PublishGameSessionTracking(string ip, int port);
-        Task PublishFinalizeTracking(string ip, int port); 
+        Task PublishGameSessionTracking(string ip, int port); 
+
+        Task PublishFinalizeMatch(string ip, int port);
     }
     public class GameSessionProcessorEventPublisher : IGameSessionProcessorEventPublisher
     {
@@ -33,12 +34,12 @@ namespace LaMa.Game.GameSessionProcessor.Client
             var response = await _eventGridPublisherClient.SendEventAsync(message);
         }
 
-        public async Task PublishFinalizeTracking(string ip, int port)
+        public async Task PublishFinalizeMatch(string ip, int port)
         {
             var message =
                 new EventGridEvent(
                     "GameSessionProcessor",
-                    GameSessionProcessEventTypes.FinalizeTracking,
+                    GameSessionProcessEventTypes.FinalizeMatch,
                     "1.0", new GameSessionProcessorEventMessage
                     {
                         Ip = ip,
@@ -46,5 +47,7 @@ namespace LaMa.Game.GameSessionProcessor.Client
                     });
             var response = await _eventGridPublisherClient.SendEventAsync(message);
         }
+
+      
     }
 }
