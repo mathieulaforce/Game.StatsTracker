@@ -185,4 +185,9 @@ public class GameMatch
     {
         return scoreOfPlayer.ContainsKey(playerName) && disconnectedPlayers.Contains(playerName);
     }
+
+    public void SetRoundInformation(RoundInformation roundInformation)
+    {
+        CurrentRoundInformation = roundInformation;
+    }
 }

@@ -14,6 +14,8 @@ public static class GameMatchMapper
         {
             domain.RegisterCompletedRound(new RoundInformation(matchRoundScore.RoundNumber,match.TotalRounds,"" ), matchRoundScore.SessionPlayers.MapToDomain(),matchRoundScore.DisconnectedPlayers.MapToDomain());
         }
+
+        domain.SetRoundInformation(new RoundInformation(match.CurrentRound, match.TotalRounds, match.TimeLeft));
         return domain;
     }
 

@@ -48,7 +48,7 @@
 
         public int CalculateLevel(IPlayer player)
         {
-            var expPointsPer10Lvls = new int[
+            var expPointsPer10Lvls = new int[]{
                 500,//'0-9'        
                1000,//'10-19'    
                2000,//'20-29'   
@@ -59,7 +59,7 @@
                23000,//'70-79'
                43000,//'80-89'
                83000,//'90-99'
-               133000];//'100-109'
+               133000};//'100-109'
 
             var honor = 0;
             var leftOverScore = GetTotalScore(player);

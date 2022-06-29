@@ -35,9 +35,9 @@ public static class PlayerMapper
         return sessionPlayer;
     }
 
-    public static TrackedPlayer MapToDomain(this PlayerDTO player,  IPlayerScoreCalculator calculator)
+    public static TrackedPlayer MapToDomain(this PlayerDTO player )
     {
-        var trackedPlayer = new TrackedPlayer(player.Name, player.Leader, calculator);
+        var trackedPlayer = new TrackedPlayer(player.Name, player.Leader, new PlayerScoreCalculator());
         trackedPlayer.SetScore(player.Goal,player.Leader, player.Roe, player.TotalPoints, player.KillPoints, player.KiaPoints);
         trackedPlayer.SetHonours(player.TimesGoldPlayer, player.TimesSilverPlayer, player.TimesBronzePlayer, player.TimesDeadliestPlayer);
         trackedPlayer.SetRecords(player.LargestGoalScore, player.LargestLeaderScore, player.LargestTotalScore, player.LargestKillStreak, player.LargestDeathStreak, player.LowestRoeScore);

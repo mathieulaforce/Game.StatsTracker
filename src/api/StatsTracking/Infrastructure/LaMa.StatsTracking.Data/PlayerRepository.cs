@@ -32,9 +32,16 @@ public class PlayerRepository : IPlayerRepository
     { 
         foreach (var player in trackedPlayer)
         {
-            var playerDTO = Container.GetItemLinqQueryable<PlayerDTO>(true)
-                .Where(_ => _.Name == player.Name)
-                .FirstOrDefault();
+            var feedIterator = Container.GetItemLinqQueryable<PlayerDTO>()
+                .Where(_ => _.Name == player.Name).ToFeedIterator();
+
+            PlayerDTO playerDTO = null;
+            while (feedIterator.HasMoreResults)
+            {
+                var res = await feedIterator.ReadNextAsync();
+                playerDTO = res.Resource?.FirstOrDefault();
+            }
+
             if (playerDTO == null)
             {
                 playerDTO = new PlayerDTO
@@ -44,9 +51,10 @@ public class PlayerRepository : IPlayerRepository
                 };
             }
 
-            var existingDomainPlayer = playerDTO.MapToDomain(_calculator);
+            var existingDomainPlayer = playerDTO.MapToDomain();
             existingDomainPlayer.AddMatchScore(player);
-            var response = await Container.UpsertItemAsync(existingDomainPlayer.MapToDto());
+            var dto = existingDomainPlayer.MapToDto();
+            var response = await Container.UpsertItemAsync(dto);
         }
     }
 }

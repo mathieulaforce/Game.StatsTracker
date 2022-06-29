@@ -18,13 +18,16 @@ public interface IGameSessionApplicationService
 public class GameSessionApplicationService : IGameSessionApplicationService
 {
     private readonly IAAO25Client _aao25Client;
-    private readonly IGameMatchRepository _gameMatchRepository; 
+    private readonly IGameMatchRepository _gameMatchRepository;
+    private readonly IPlayerRepository _playerRepository;
     private readonly IGameSessionProcessorEventPublisher _gameSessionProcessorEventPublisher;
 
-    public GameSessionApplicationService(IAAO25Client aao25Client, IGameMatchRepository gameMatchRepository, IGameSessionProcessorEventPublisher gameSessionProcessorEventPublisher)
+    public GameSessionApplicationService(IAAO25Client aao25Client, IGameMatchRepository gameMatchRepository, IPlayerRepository playerRepository,
+        IGameSessionProcessorEventPublisher gameSessionProcessorEventPublisher)
     {
         _aao25Client = aao25Client;
         _gameMatchRepository = gameMatchRepository;
+        _playerRepository = playerRepository;
         _gameSessionProcessorEventPublisher = gameSessionProcessorEventPublisher;
     } 
 
@@ -50,6 +53,7 @@ public class GameSessionApplicationService : IGameSessionApplicationService
         foreach (var serverMatch in serverMatches)
         {
             var scoreboard = serverMatch.GetFinalizedScoreboard();
+            await _playerRepository.UpdateScores(scoreboard);
         }
 
     }

@@ -2,6 +2,12 @@
 
 public class PlayerDTO
 {
+    public PlayerDTO()
+    {
+        
+    }
+
+    public string Id => Name;
     public int Kills { get; set; }
     public int Kia { get; set; }
     public decimal FragRate { get; set; }
@@ -21,7 +27,7 @@ public class PlayerDTO
     public string Name { get; set; }
     public int Leader { get; set; }
     public int Goal { get; set; }
-    public int Ping { get; }
+    public int Ping { get; set; }
     public int Roe { get; set; }
     public int Honor { get; set; }
     public int KiaPoints { get; set; }
